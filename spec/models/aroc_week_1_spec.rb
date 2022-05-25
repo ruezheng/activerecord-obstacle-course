@@ -18,7 +18,13 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_of_500 = Order.where('amount = 500')
+    orders_of_200 = Order.where('amount = 200')
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders_of_500 = ActiveRecord::Base.connection.execute("SELECT * FROM orders WHERE amount = 500;")
+    orders_of_200 = Order.find_by_sql("SELECT * FROM orders WHERE amount = 200;")
     # ------------------------------------------------------------
 
     # Expectation
@@ -27,13 +33,17 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
   end
 
   it '2. finds order id of smallest order' do
+
     # ----------------------- Using Raw SQL ----------------------
     order_id = ActiveRecord::Base.connection.execute('SELECT id FROM orders ORDER BY amount ASC LIMIT 1').first['id']
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
-    # Your solution should not contain the ID of the order anywhere
+    order_id = Order.order(:amount).limit(1).pluck(:id)[0]
+    # ------------------------------------------------------------
+
+    # ------------------ Using Ruby ------------------------------
+    order_id = Order.find { |order| order.id if order.amount == 200 }.id
     # ------------------------------------------------------------
 
     # Expectation
@@ -42,12 +52,15 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
 
   it '3. finds order id of largest order' do
     # ----------------------- Using Raw SQL ----------------------
-    order_id = ActiveRecord::Base.connection.execute('SELECT id FROM orders ORDER BY amount DESC LIMIT 1').first['id']
+    order_id = Order.find_by_sql('SELECT id FROM orders ORDER BY amount DESC LIMIT 1').first['id']
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
-    # Your solution should not contain the ID of the order anywhere
+    order_id = Order.order('amount desc').limit(1).pluck(:id)[0]
+    # ------------------------------------------------------------
+
+    # ------------------ Using Ruby ------------------------------
+    order_id = Order.all.max_by { |order| order.amount}.id
     # ------------------------------------------------------------
 
     # Expectation
@@ -66,7 +79,13 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_of_500_and_700 = Order.where(amount: [500, 700])
+    orders_of_700_and_1000 = Order.where(amount: [700, 1000])
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders_of_500_and_700 = Order.find_by_sql("SELECT * FROM orders WHERE amount IN (500, 700);")
+    orders_of_700_and_1000 = Order.find_by_sql("SELECT * FROM orders WHERE amount IN (700, 1000);")
     # ------------------------------------------------------------
 
     # Expectation
@@ -83,7 +102,13 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items = Item.where(id: ids_to_find)
+    # OR
+    # items = Item.where(id: [@item_1.id, @item_2.id, @item_4.id])
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    # item = Item.find_by_sql("SELECT * FROM items WHERE id IN ids_to_find") <<<<<< ids_to_find attribute???????
     # ------------------------------------------------------------
 
     # Expectation
@@ -98,7 +123,11 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    order = Order.where(id: ids_to_find)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------ ????
+    # item = Order.find_by_sql("SELECT * FROM orders WHERE id IN @ids_to_find") <<<<<<<<< SAME ISSUE AS ABOVE
     # ------------------------------------------------------------
 
     # Expectation
@@ -112,7 +141,11 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_between_700_and_1000 = Order.where("amount >= 700 AND amount <= 1000")
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders_between_700_and_1000 = Order.find_by_sql("SELECT * FROM orders WHERE amount BETWEEN '700' AND '1000';")
     # ------------------------------------------------------------
 
     # Expectation
@@ -127,7 +160,11 @@ describe 'ActiveRecord Obstacle Course, Week 1' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_less_than_550 = Order.where('amount < 550')
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders_less_than_550 = Order.find_by_sql("SELECT * FROM orders WHERE amount < 550;")
     # ------------------------------------------------------------
 
     # Expectation

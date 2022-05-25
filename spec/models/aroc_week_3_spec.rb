@@ -30,6 +30,11 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # Solution goes here
     # ------------------------------------------------------------
 
+
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+
     # Expectation
     expect(users).to eq(expected_result)
   end
@@ -43,6 +48,10 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+
     # ------------------------------------------------------------
 
     # Expectation
@@ -69,6 +78,10 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # Solution goes here
     # ------------------------------------------------------------
 
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+
     # Expectation
     expect(items_for_user_3_third_order.sort).to eq(expected_result.sort)
   end
@@ -80,6 +93,10 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+
     # ------------------------------------------------------------
 
     # Expectation
@@ -99,6 +116,10 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # Solution goes here
     # ------------------------------------------------------------
 
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+    
     # Expectation
     expect(average.to_i).to eq(749)
   end

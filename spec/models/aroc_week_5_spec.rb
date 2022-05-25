@@ -36,6 +36,10 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     # Which ones are you able to switch around without relying on Ruby's Enumerable methods?
     # ---------------------------------------------------------------
 
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+
     # Expectations
     expect(ordered_items_names).to eq(expected_result)
     expect(ordered_items_names).to_not include(unordered_items)
@@ -55,6 +59,10 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     # ------------------ ActiveRecord Solution ----------------------
     custom_results = []
     # ---------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
 
     expect(custom_results[0].name).to eq(@user_3.name)
     expect(custom_results[0].total_order_count).to eq(4)
@@ -78,6 +86,10 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     # ------------------ ActiveRecord Solution ----------------------
     custom_results = []
     # ---------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
 
     expect(custom_results[0].name).to eq(@user_2.name)
     expect(custom_results[0].total_item_count).to eq(20)
@@ -125,6 +137,10 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     data = []
     # ---------------------------------------------------------------
 
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+
     expect([data[0].user_name,data[0].order_id,data[0].avg_item_cost]).to eq([@user_1.name, @order_1.id, 50])
     expect([data[1].user_name,data[1].order_id,data[1].avg_item_cost]).to eq([@user_1.name, @order_4.id, 125])
     expect([data[2].user_name,data[2].order_id,data[2].avg_item_cost]).to eq([@user_1.name, @order_6.id, 145])
@@ -156,6 +172,10 @@ describe 'ActiveRecord Obstacle Course, Week 5' do
     orders = Order.all # Edit only this line
     # ------------------------------------------------------
 
+    # ------------------------- SQL ------------------------------
+
+    # ------------------------------------------------------------
+    
     # Do not edit below this line
     orders.each do |order|
       order.items.each do |item|

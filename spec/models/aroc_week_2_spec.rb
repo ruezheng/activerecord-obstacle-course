@@ -19,7 +19,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_of_user_3 = Order.where(user_id: @user_3.id)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    # orders_of_user_3 = Order.find_by_sql("SELECT * FROM orders WHERE user_id = 3;")
     # ------------------------------------------------------------
 
     # Expectation
@@ -38,7 +42,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.order(amount: :desc)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders = Order.find_by_sql("SELECT * FROM orders ORDER BY amount DESC;")
     # ------------------------------------------------------------
 
     # Expectation
@@ -57,7 +65,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.order(:amount)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    orders = ActiveRecord::Base.connection.execute("SELECT * FROM orders ORDER BY amount;")
     # ------------------------------------------------------------
 
     # Expectation
@@ -76,7 +88,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items = Item.where('id NOT IN (?)', [@item_2.id, @item_5.id, @item_6.id]) # >>>>>>>>>> this works, but how do you call back an object instead of the attribute?  <<<<<<<<<<<<<<<<<<<<<<<<
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    # items = ActiveRecord::Base.connection.execute("SELECT * FROM items WHERE item NOT LIKE")    <<<<<<<<< ????????? <<<<<<<<<<<<
     # ------------------------------------------------------------
 
     # Expectation
@@ -92,7 +108,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    grouped_items = Order.find(@order_3.id).items.order(:name)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    # grouped_items = Item.find_by_sql("SELECT * FROM items JOIN order_items ON items.id = order_items.item_id WHERE order_id = 3 ORDER BY items.name;")
     # ------------------------------------------------------------
 
     # Expectation
@@ -107,7 +127,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Item.pluck(:name)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    names = Item.find_by_sql("SELECT name FROM items").pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -144,7 +168,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Order.joins(:items).pluck(:name)
+    # ------------------------------------------------------------
+
+    # ------------------------- SQL ------------------------------
+    names = Item.find_by_sql("SELECT name FROM items JOIN order_items ON items.id = order_items.item_id;").pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
