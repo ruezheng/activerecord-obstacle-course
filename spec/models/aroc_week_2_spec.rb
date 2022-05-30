@@ -23,7 +23,7 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
-    # orders_of_user_3 = Order.find_by_sql("SELECT * FROM orders WHERE user_id = 3;")
+    orders_of_user_3 = Order.find_by_sql("SELECT * FROM orders WHERE user_id=#{@user_3.id};")
     # ------------------------------------------------------------
 
     # Expectation
@@ -89,10 +89,11 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
 
     # ------------------ Using ActiveRecord ----------------------
     items = Item.where('id NOT IN (?)', [@item_2.id, @item_5.id, @item_6.id]) # >>>>>>>>>> this works, but how do you call back an object instead of the attribute?  <<<<<<<<<<<<<<<<<<<<<<<<
+    items = Item.where.not(id: [@item_2.id, @item_5.id, @item_6.id])
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
-    # items = ActiveRecord::Base.connection.execute("SELECT * FROM items WHERE item NOT LIKE")    <<<<<<<<< ????????? <<<<<<<<<<<<
+    items = ActiveRecord::Base.connection.execute("SELECT * FROM items WHERE item NOT LIKE")    <<<<<<<<< ????????? <<<<<<<<<<<<
     # ------------------------------------------------------------
 
     # Expectation
@@ -108,7 +109,8 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    grouped_items = Order.find(@order_3.id).items.order(:name)
+    # grouped_items = Order.find(@order_3.id).items.order(:name)
+    grouped_items = @order_3.items.order(:name)
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------

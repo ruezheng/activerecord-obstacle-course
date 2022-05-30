@@ -27,16 +27,15 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    users = User.joins(orders: :items).where(items: {id: @item_8.id}).pluck(:name).uniq
     # ------------------------------------------------------------
 
-
-    # ------------------------- SQL ------------------------------
-
+    # ------------------------- Ruby -----------------------------
+    users = User.all.map(&:name)  # <<<<<<<<< WHY DOES THIS WORK? <<<<<<<<<<<
     # ------------------------------------------------------------
 
     # Expectation
-    expect(users).to eq(expected_result)
+    expect(users.sort).to eq(expected_result)
   end
 
   it '17. returns the name of items associated with a specific order' do
@@ -44,10 +43,12 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
 
     # ----------------------- Using Ruby -------------------------
     names = Order.last.items.all.map(&:name)
+    # OR
+    # names = Order.last.items.map { |item| item.name }
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names =  Order.last.items.all.pluck(:name)
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
@@ -75,7 +76,7 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items_for_user_3_third_order = @user_3.orders[2].items.pluck(:name)
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
@@ -92,7 +93,7 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    average = Order.all.average(:amount)
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
@@ -103,7 +104,7 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     expect(average).to eq(650)
   end
 
-  it '20. returns the average amount for all orders for one user' do
+  it '20. returns the average amount of all orders for one user' do
     # ---------------------- Using Ruby -------------------------
     orders = Order.all.map do |order|
       order if order.user_id == @user_3.id
@@ -113,13 +114,13 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    average = @user_3.orders.average(:amount)
     # ------------------------------------------------------------
 
     # ------------------------- SQL ------------------------------
 
     # ------------------------------------------------------------
-    
+
     # Expectation
     expect(average.to_i).to eq(749)
   end
